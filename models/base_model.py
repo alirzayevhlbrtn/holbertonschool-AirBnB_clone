@@ -1,13 +1,19 @@
 #!/usr/bin/python3
-"""Base Model module"""
+"""
+Base Model module
+"""
 import uuid
 from datetime import datetime
 
 
 class BaseModel:
-    """Base Model class"""
+    """
+    Base Model class
+    """
     def __init__(self, *args, **kwargs):
-        """Init function"""
+        """
+        Init function
+        """
         self.id = str(uuid.uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
@@ -17,13 +23,17 @@ class BaseModel:
                     setattr(self, key, value)
 
     def __str__(self):
-        """Str function"""
+        """
+        Str function
+        """
         return "[{}] ({}) {}".format(self.__class__.__name__,
                                      self.id,
                                      self.__dict__)
 
     def save(self):
-        """Save function"""
+        """
+        Save function
+        """
         self.updated_at = datetime.now()
 
     def to_dict(self):
