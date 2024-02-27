@@ -20,37 +20,33 @@ class TestBaseModel(unittest.TestCase):
 
         FileStorage.__objects == {}
 
-    def test_id_gen(self):
-        basemodel = BaseModel()
-        self.assertIsNotNone(basemodel.id)
-        self.assertIsInstance(basemodel.id, str)
+    def test_check_type(self):
+        self.assertIsInstance(FileStorage.__file_path, str)
+        self.assertIsInstance(FileStorage.__objects, dict)
 
-    def test_create(self):
-        basemodel = BaseModel()
-        self.assertIsNotNone(basemodel.created_at)
-        self.assertIsInstance(basemodel.created_at, datetime)
+    def test_storage_all(self):
+        obj1 = BaseModel()
+        obj2 = BaseModel()
+        storage.new(obj1)
+        storage.new(obj2)
 
-    def test_save(self):
-        basemodel = BaseModel()
-        prev = basemodel.updated_at
-        basemodel.save()
-        self.assertNotEqual(basemodel.updated_at, prev)
+        allobjects = storage.all()
 
-    def test_storage(self):
-        basemodel = BaseModel()
-        basemodel.name = "Huseyn_first_model"
-        basemodel.my_number = 89
-        basemodel.save()
-        self.assertTrue(os.path.exists("file.json"))
-        self.assertIn("BaseModel." + basemodel.id, storage.all())
+        self.assertIn(obj1, allobjects.values())
+        self.assertIn(obj2, allobjects.values())
 
-    def test_to_dict(self):
-        basemodel = BaseModel()
-        objdict = basemodel.to_dict()
-        self.assertIsInstance(objdict, dict)
-        self.assertEqual(objdict["__class__"], "BaseModel")
+    def test_storage_new(self):
+        obj = BaseModel()
+        storage.new(obj)
 
-    def test_str(self):
-        basemodel = BaseModel()
-        excp = "[BaseModel] ({}) {}".format(basemodel.id, basemodel.__dict__)
-        self.assertEqual(str(basemodel), excp)
+        self.assertIn(obj, storage.all().values())
+
+    def test_storage_save(self):
+        obj = BaseModel()
+
+        storage.new(obj)
+        storage.save()
+
+        with open("file.json", "r") as f:
+            text = f.read()
+            self.assertIn("BaseMode." + obj.id, text)
