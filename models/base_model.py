@@ -25,7 +25,7 @@ class BaseModel:
                 if key == 'updated_at':
                     value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
                 if key != "__class__":
-                    setattr(self, key, vlaue)
+                    setattr(self, key, value)
 
     def __str__(self):
         """
