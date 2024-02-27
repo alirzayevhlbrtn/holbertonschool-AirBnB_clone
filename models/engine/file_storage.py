@@ -3,6 +3,7 @@
 Class of stroage
 """
 import json
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -26,6 +27,8 @@ class FileStorage:
     def reload(self):
         try:
             with open(FileStorage.__file_path, "r") as rf:
-                pass
+                obj = json.load(f)
+                for key in obj:
+                    FileStorage.__objects[key] = BaseModel(**obj[key])
         except FileNotFoundError:
             pass
