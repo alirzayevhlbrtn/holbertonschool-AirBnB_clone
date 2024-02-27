@@ -1,24 +1,23 @@
 #!/usr/bin/python3
 """
-Unit tests
+Unit Test of file storage
 """
 import os
 import unittest
-from datetime import datetime
 
 from models import storage
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
 
-class TestBaseModel(unittest.TestCase):
-    def setting(self):
+class TestFileStorage(unittest.TestCase):
+    def setUp(self):
         try:
             os.remove("file.json")
         except IOError:
             pass
 
-        FileStorage.__objects == {}
+        FileStorage.__objects = {}
 
     def test_check_type(self):
         self.assertIsInstance(FileStorage.__file_path, str)
@@ -30,10 +29,10 @@ class TestBaseModel(unittest.TestCase):
         storage.new(obj1)
         storage.new(obj2)
 
-        allobjects = storage.all()
+        all_objects = storage.all()
 
-        self.assertIn(obj1, allobjects.values())
-        self.assertIn(obj2, allobjects.values())
+        self.assertIn(obj1, all_objects.values())
+        self.assertIn(obj2, all_objects.values())
 
     def test_storage_new(self):
         obj = BaseModel()
@@ -48,5 +47,5 @@ class TestBaseModel(unittest.TestCase):
         storage.save()
 
         with open("file.json", "r") as f:
-            text = f.read()
-            self.assertIn("BaseModel." + obj.id, text)
+            filetext = f.read()
+            self.assertIn("BaseModel." + obj.id, filetext)

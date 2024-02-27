@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Unit tests
+Unit tests of base model
 """
 import os
 import unittest
@@ -12,13 +12,13 @@ from models.engine.file_storage import FileStorage
 
 
 class TestBaseModel(unittest.TestCase):
-    def setting(self):
+    def setUp(self):
         try:
             os.remove("file.json")
         except IOError:
             pass
 
-        FileStorage.__objects == {}
+        FileStorage.__objects = {}
 
     def test_id_generation(self):
         base_model = BaseModel()
@@ -38,8 +38,8 @@ class TestBaseModel(unittest.TestCase):
 
     def test_save_method_with_storage(self):
         base_model = BaseModel()
-        base_model.name = "My_First_Model"
-        base_model.my_number = 89
+        base_model.name = "Husus_First_Love_Model"
+        base_model.my_number = 31
         base_model.save()
         self.assertTrue(os.path.exists("file.json"))
         self.assertIn("BaseModel." + base_model.id, storage.all())
@@ -52,5 +52,5 @@ class TestBaseModel(unittest.TestCase):
 
     def test_str_method(self):
         base_model = BaseModel()
-        expected_string = f"[BaseModel] ({base_model.id}) {base_model.__dict__}"
-        self.assertEqual(str(base_model), expected_string)
+        exps = "[BaseModel] ({}) {}".format(base_model.id, base_model.__dict__)
+        self.assertEqual(str(base_model), exps)
