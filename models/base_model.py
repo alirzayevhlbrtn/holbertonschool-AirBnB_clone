@@ -3,6 +3,7 @@
 Base Model module
 """
 import uuid
+import models
 from datetime import datetime
 
 
@@ -39,6 +40,7 @@ class BaseModel:
         Save function
         """
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         dict = self.__dict__.copy()
