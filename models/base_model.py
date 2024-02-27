@@ -34,12 +34,6 @@ class BaseModel:
                                      self.id,
                                      self.__dict__)
 
-    def save(self):
-        """
-        Save function
-        """
-        self.updated_at = datetime.now()
-
     def to_dict(self):
         dict = self.__dict__.copy()
         dict["__class__"] = self.__class__.__name__
