@@ -19,12 +19,12 @@ class BaseModel:
         self.updated_at = datetime.now()
         if kwargs:
             for key, value in kwargs.items():
-                if key != "__class__":
-                    setattr(self, key, value)
                 if key == "created_at":
                     value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%5.%f')
                 if key == 'updated_at':
                     value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+                if key != "__class__":
+                    setattr(self, key, vlaue)
 
     def __str__(self):
         """
