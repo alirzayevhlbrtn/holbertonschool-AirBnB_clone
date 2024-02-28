@@ -30,5 +30,5 @@ class FileStorage:
                 obj = json.load(rf)
                 for key in obj:
                     FileStorage.__objects[key] = BaseModel(**obj[key])
-        except FileNotFoundError:
+        except Exception:
             pass
