@@ -10,6 +10,10 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
+    @property
+    def file_path(self):
+        return FileStorage.__file_path
+
     def all(self):
         return self.__objects
 
