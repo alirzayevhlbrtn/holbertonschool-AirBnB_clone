@@ -4,13 +4,16 @@ Console of HBNB
 """
 import cmd
 import json
+import models
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 
 class HBNBCommand(cmd.Cmd):
     """
     Class of console
     """
     prompt = "(hbnb) "
+    classdic = {"BaseModel": BaseModel}
 
     def do_quit(self, args):
         """
@@ -42,13 +45,12 @@ class HBNBCommand(cmd.Cmd):
             return
         arglist = args.split()
         class_name = arglist[0]
-        if class_name != "BaseModel":
+        if class_name not in HBNBCommand.classdic.keys():
             print("** class doesn't exist **")
             return
-        if class_name == "BaseModel":
-            new = BaseModel()
-            new.save()
-            print(new.id)
+        new_instance = HBNBCommand.classdic[class_name]()
+        new_instance.save()
+        print(new_instance.id)
 
     def do_show(self, args):
         if not args:
@@ -56,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
             return
         arglist = args.split()
         class_name = arglist[0]
-        if class_name != "BaseModel":
+        if class_name not in HBNBCommand.classdic.keys():
             print("** class doesn't exist **")
             return
         if len(arglist) < 2:
@@ -64,7 +66,7 @@ class HBNBCommand(cmd.Cmd):
             return
         ins_id = arglist[1]
         key = "{}.{}".format(class_name, ins_id)
-        all_ins = BaseModel.to_dict()
+        all_ins = models.storage.all()
         if key in all_ins:
             print(all_ins[key])
         else:
@@ -83,24 +85,31 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         insid = arglist[1]
-        key = "{}.{}".format(class_name, ins_id)
-        all_ins = BaseModel.to_dict()
-        if key in all_ins:
-            del all_ins[key]
-            BaseModel.save()
+        key = "{}.{}".format(class_name, insid)
+        if key in models.storage.all().keys():
+            del models.storage.all()[key]
+            models.storage.save()
         else:
             print("** no instance found **")
             return
 
     def do_all(self, args):
-        all_ins = BaseModel.to_dict()
+        all_ins = models.storage.all()
         arglist = args.split()
+        if not args:
+            obj_list = list(map(lambda x: str(x), list(all_ins.values())))
+            print(obj_list)
+            return
         class_name = arglist[0]
-        if class_name != "BaseModel":
+        if class_name not in HBNBCommand.classdic.keys():
             print("** class doesn't exist **")
             return
-        elif not args or class_name == "BaseModel":
-            pass
+        if class_name in HBNBCommand.classdic.keys():
+            prlist = []
+            for key in all_ins.keys():
+                if class_name in str(key):
+                    prlist.append(str(all_ins[key]))
+            print(prlist)
 
 
 if __name__ == '__main__':
