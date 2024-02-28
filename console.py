@@ -15,6 +15,14 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
     classdic = {"BaseModel": BaseModel}
 
+    @staticmethod
+    def isfloat(n):
+        try:
+            float(n)
+            return True
+        except ValueError:
+            return False
+
     def do_quit(self, args):
         """
         Handling quit in cmd
@@ -78,7 +86,7 @@ class HBNBCommand(cmd.Cmd):
             return
         arglist = args.split()
         class_name = arglist[0]
-        if class_name != "BaseModel":
+        if class_name not in HBNBCommandclassdic.keys():
             print("** class doesn't exist **")
             return
         if len(arglist) < 2:
@@ -110,6 +118,46 @@ class HBNBCommand(cmd.Cmd):
                 if class_name in str(key):
                     prlist.append(str(all_ins[key]))
             print(prlist)
+
+    def do_update(self, args):
+        if not args:
+            print("** class name missing **")
+            return
+        arglist = args.split()
+        if len(arglist) < 2:
+            print("** instance id missing **")
+            return
+        if len(arglist) < 3:
+            print("** attribute name missing **")
+            return
+        if len(arglist) < 4:
+            print("** value missing **")
+            return
+
+        class_name = arglist[0]
+        if class_name not in HBNBCommand.classdic.keys():
+            print("** class doesn't exist **")
+            return
+
+        ins_id = arglist[1]
+        key = "{}.{}".format(class_name, ins_id)
+        all_ins = models.storage.all()
+        if key not in all_ins:
+            print("** no instance found **")
+            return
+
+        value = arglist[3]
+        i = value.isdigit()
+        d = HBNBCommand.isfloat(value)
+
+        if i:
+            setattr(all_ins[key], arglist[2], int(arglist[3]))
+        elif d and not i:
+            setattr(all_ins[key], arglist[2], float(arglist[3]))
+        else:
+            setattr(all_ins[key], arglist[2], arglist[3].strip('"'))
+
+        models.storage.save()
 
 
 if __name__ == '__main__':
