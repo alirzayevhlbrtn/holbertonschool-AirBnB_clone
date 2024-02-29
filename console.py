@@ -6,6 +6,7 @@ import cmd
 import json
 import models
 from models.base_model import BaseModel
+from models.user import User
 from models.engine.file_storage import FileStorage
 
 class HBNBCommand(cmd.Cmd):
@@ -13,7 +14,7 @@ class HBNBCommand(cmd.Cmd):
     Class of console
     """
     prompt = "(hbnb) "
-    classdic = {"BaseModel": BaseModel}
+    classdic = {"BaseModel": BaseModel, "User": User}
 
     @staticmethod
     def isfloat(n):
