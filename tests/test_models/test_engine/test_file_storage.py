@@ -19,6 +19,17 @@ class TestFileStorage(unittest.TestCase):
 
         FileStorage.__objects = {}
 
+    def test_reload(self):
+        obj1 = BaseModel()
+        obj2 = BaseModel()
+        obj3 = BaseModel()
+
+        storage.save()
+        storage.objects = {}
+        storage.reload()
+
+        self.assertNotEqual(len(storage.objects), 0)
+
     def test_check_type(self):
         self.assertIsInstance(FileStorage._FileStorage__file_path, str)
         self.assertIsInstance(FileStorage._FileStorage__objects, dict)
