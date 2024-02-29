@@ -16,12 +16,12 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
     __c = {"BaseModel": BaseModel,
-             "User": User,
-             "Review": Review,
-             "State": State,
-             "City": City,
-             "Amenity": Amenity,
-             "Place": Place}
+           "User": User,
+           "Review": Review,
+           "State": State,
+           "City": City,
+           "Amenity": Amenity,
+           "Place": Place}
 
     @property
     def file_path(self):
