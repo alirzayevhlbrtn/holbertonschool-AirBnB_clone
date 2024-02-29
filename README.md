@@ -76,7 +76,7 @@ python3 -m unittest discover tests
 
 <h2 align="center">Authors</h2>
 
-- [Saleh Shahverdiyev](https://github.com/vasifvortex)
+- [Vasif Orujzada](https://github.com/vasifvortex)
 - [Uzeyir Alirzayev](https://github.com/alirzayevhlbrtn)
 
 
