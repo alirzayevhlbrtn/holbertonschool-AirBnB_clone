@@ -4,12 +4,18 @@ Class of stroage
 """
 import json
 from models.base_model import BaseModel
+from models.user import User
+from models.city import City
+from models.state import State
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class FileStorage:
     __file_path = "file.json"
     __objects = {}
-    __cls = {"BaseModel": BaseModel,
+    __c = {"BaseModel": BaseModel,
              "User": User,
              "Review": Review,
              "State": State,
@@ -36,8 +42,8 @@ class FileStorage:
         try:
             with open(FileStorage.__file_path, "r") as rf:
                 obj = json.load(rf)
-                for key in obj:
-                    name = key.split(".")[0]
-                    FileStorage.__objects[key] = FileStorage.__cls[name](**obj[key])
+                for k in obj:
+                    name = k.split(".")[0]
+                    FileStorage.__objects[k] = FileStorage.__c[name](**obj[k])
         except Exception:
             pass
