@@ -9,6 +9,13 @@ from models.base_model import BaseModel
 class FileStorage:
     __file_path = "file.json"
     __objects = {}
+    __cls = {"BaseModel": BaseModel,
+             "User": User,
+             "Review": Review,
+             "State": State,
+             "City": City,
+             "Amenity": Amenity,
+             "Place": Place}
 
 
     def all(self):
@@ -30,6 +37,7 @@ class FileStorage:
             with open(FileStorage.__file_path, "r") as rf:
                 obj = json.load(rf)
                 for key in obj:
-                    FileStorage.__objects[key] = BaseModel(**obj[key])
+                    name = key.split(".")[0]
+                    FileStorage.__objects[key] = FileStorage.__cls[name](**obj[key])
         except Exception:
             pass
