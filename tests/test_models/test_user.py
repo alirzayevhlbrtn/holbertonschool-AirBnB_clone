@@ -35,7 +35,7 @@ class TestUser(unittest.TestCase):
 
     def test_first_name(self):
         user_model = User()
-        user_model.first_name = "test"
+        user_model.first_name = "test-first-name"
         self.assertEqual(user_model.first_name, "test-first-name")
 
     def test_last_name(self):
