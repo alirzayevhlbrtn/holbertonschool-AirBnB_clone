@@ -1,0 +1,1 @@
+Repo of web static
